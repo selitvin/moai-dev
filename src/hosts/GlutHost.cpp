@@ -436,6 +436,8 @@ void GlutRefreshContext () {
 	AKUSetFunc_ExitFullscreenMode ( _AKUExitFullscreenModeFunc );
 	AKUSetFunc_OpenWindow ( _AKUOpenWindowFunc );
 
+	AKUSetRotation ( AKU_ROTATION_0 );
+
 	#ifdef GLUTHOST_USE_DEBUGGER
 		AKUSetFunc_ErrorTraceback ( _AKUErrorTracebackFunc );
 		AKUDebugHarnessInit ();

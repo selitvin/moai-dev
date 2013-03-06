@@ -87,6 +87,41 @@ int MOAIGfxDevice::_getMaxTextureUnits ( lua_State* L ) {
 }
 
 //----------------------------------------------------------------//
+/**	@name	getRotation
+	@text	Returns the rotation of the screen from 
+			its "natural" orientation. The returned value may 
+			be MOAIGfxDevice.ROTATION_0 (no rotation), 
+			MOAIGfxDevice.ROTATION_90, MOAIGfxDevice.ROTATION_180, or 
+			MOAIGfxDevice.ROTATION_270. For example, 
+			if a device has a naturally tall screen, and the user 
+			has turned it on its side to go into a landscape 
+			orientation, the value returned here may be either 
+			MOAIGfxDevice.ROTATION_90 or MOAIGfxDevice.ROTATION_270 depending 
+			on the direction it was turned. The angle is the 
+			rotation of the drawn graphics on the screen, which 
+			is the opposite direction of the physical rotation of 
+			the device. For example, if the device is rotated 90 
+			degrees counter-clockwise, to compensate rendering 
+			will be rotated by 90 degrees clockwise and thus the 
+			returned value here will be MOAIGfxDevice.ROTATION_90. 
+			(same semantics as in 
+			http://developer.android.com/reference/android/view/Display.html#getRotation%28%29)
+	
+	@out	MOAIGfxDevice.ROTATION_0, MOAIGfxDevice.ROTATION_90,
+			MOAIGfxDevice.ROTATION_180 or MOAIGfxDevice.ROTATION_270
+*/
+int MOAIGfxDevice::_getRotation ( lua_State* L  ) {
+
+	MOAIGfxDevice& gfxDevice = MOAIGfxDevice::Get ();
+	
+	lua_pushnumber ( L, gfxDevice.GetRotation ());	
+	
+	return 1;
+}
+
+
+
+//----------------------------------------------------------------//
 /**	@name	getViewSize
 	@text	Returns the width and height of the view
 	
@@ -534,6 +569,12 @@ USMatrix4x4 MOAIGfxDevice::GetViewProjMtx () const {
 //}
 
 //----------------------------------------------------------------//
+u32 MOAIGfxDevice::GetRotation () const {
+
+	return this->mRotation;
+}
+
+//----------------------------------------------------------------//
 u32 MOAIGfxDevice::GetWidth () const {
 
 	return this->mFrameBuffer->mBufferWidth;
@@ -645,6 +686,7 @@ MOAIGfxDevice::MOAIGfxDevice () :
 	mTop ( 0 ),
 	mUVMtxInput ( UV_STAGE_MODEL ),
 	mUVMtxOutput ( UV_STAGE_MODEL ),
+	mRotation ( ROTATION_UNKNOWN ),
 	mVertexFormat ( 0 ),
 	mVertexFormatBuffer ( 0 ),
 	mVertexMtxInput ( VTX_STAGE_MODEL ),
@@ -705,9 +747,16 @@ void MOAIGfxDevice::RegisterLuaClass ( MOAILuaState& state ) {
 
 	state.SetField ( -1, "EVENT_RESIZE", ( u32 )EVENT_RESIZE );
 
+	state.SetField ( -1, "ROTATION_0",			 ( u32 )ROTATION_0   );
+	state.SetField ( -1, "ROTATION_90",			 ( u32 )ROTATION_90  );
+	state.SetField ( -1, "ROTATION_180",		 ( u32 )ROTATION_180 );
+	state.SetField ( -1, "ROTATION_270",		 ( u32 )ROTATION_270 );
+	state.SetField ( -1, "ROTATION_UNKNOWN",	 ( u32 )ROTATION_UNKNOWN );
+
 	luaL_Reg regTable [] = {
 		{ "getFrameBuffer",				_getFrameBuffer },
 		{ "getMaxTextureUnits",			_getMaxTextureUnits },
+		{ "getRotation",				_getRotation },
 		{ "getViewSize",				_getViewSize },
 		{ "isProgrammable",				_isProgrammable },
 		{ "setDefaultTexture",			_setDefaultTexture },
@@ -1104,6 +1153,12 @@ void MOAIGfxDevice::SetPrimType ( u32 primType ) {
 				break;
 		}
 	}
+}
+
+//----------------------------------------------------------------//
+void MOAIGfxDevice::SetRotation ( u32 rotation ) {
+
+	this->mRotation = rotation;	
 }
 
 //----------------------------------------------------------------//

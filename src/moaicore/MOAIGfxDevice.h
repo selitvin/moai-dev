@@ -78,7 +78,15 @@ public:
 		EVENT_RESIZE,
 		TOTAL_EVENTS,
 	};
-	
+
+	enum {
+		ROTATION_0,
+		ROTATION_90,
+		ROTATION_180,
+		ROTATION_270,
+		ROTATION_UNKNOWN,
+	};
+
 private:
 	
 	static const u32 DEFAULT_BUFFER_SIZE	= 0x8000;
@@ -141,6 +149,8 @@ private:
 	u32				mUVMtxOutput;
 	USMatrix4x4		mUVTransform;
 
+	u32				mRotation;
+
 	const MOAIVertexFormat*	mVertexFormat;
 	void* mVertexFormatBuffer;
 
@@ -162,6 +172,7 @@ private:
 	//----------------------------------------------------------------//
 	static int				_getFrameBuffer			( lua_State* L );
 	static int				_getMaxTextureUnits		( lua_State* L );
+	static int				_getRotation			( lua_State* L );
 	static int				_getViewSize			( lua_State* L );
 	static int				_isProgrammable			( lua_State* L );
 	static int				_setDefaultTexture		( lua_State* L );
@@ -232,6 +243,8 @@ public:
 	const USMatrix4x4&		GetVertexTransform		( u32 id ) const;
 	USMatrix4x4				GetViewProjMtx			() const;
 
+	u32						GetRotation				() const;
+
 	u32						GetWidth				() const;
 	
 	USMatrix4x4				GetWorldToWndMtx		() const;
@@ -286,6 +299,7 @@ public:
 	void					SetPenWidth				( float penWidth );
 	void					SetPointSize			( float pointSize );
 	void					SetPrimType				( u32 primType );
+	void					SetRotation				( u32 rotation );
 	void					SetScissorRect			();
 	void					SetScissorRect			( USRect rect );
 	void					SetScreenSpace			( MOAIViewport& viewport );

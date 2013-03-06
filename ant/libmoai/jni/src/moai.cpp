@@ -530,6 +530,12 @@
 		JNI_RELEASE_CSTRING ( jname, name );
 	}
 
+   //----------------------------------------------------------------//
+   extern "C" void Java_com_ziplinegames_moai_Moai_AKUSetRotation ( JNIEnv* env, jclass obj, jint rotation ) {
+
+      AKUSetRotation ( rotation );
+   }
+
 	//----------------------------------------------------------------//
 	extern "C" void Java_com_ziplinegames_moai_Moai_AKUSetScreenDpi ( JNIEnv* env, jclass obj, jint dpi ) {
 

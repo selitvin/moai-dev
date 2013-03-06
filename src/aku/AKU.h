@@ -37,6 +37,13 @@ enum {
 	AKU_ORIENTATION_LANDSCAPE,
 };
 
+enum {
+	AKU_ROTATION_0,
+	AKU_ROTATION_90,
+	AKU_ROTATION_180,
+	AKU_ROTATION_270,
+};
+
 // Callback management
 typedef void ( *AKUEnterFullscreenModeFunc )	();
 typedef void ( *AKUErrorTracebackFunc )         ( const char* message, struct lua_State* L, int level );
@@ -77,6 +84,7 @@ AKU_API void			AKURunBytecode					( void* data, size_t size );
 AKU_API void			AKURunScript					( const char* filename );
 AKU_API void			AKURunString					( const char* script );
 AKU_API void			AKUSetOrientation				( int orientation );
+AKU_API void			AKUSetRotation					( int rotation );
 AKU_API void			AKUSetScreenDpi					( int dpi );
 AKU_API void			AKUSetScreenSize				( int width, int height );
 AKU_API void			AKUSetViewSize					( int width, int height );

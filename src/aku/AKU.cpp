@@ -459,6 +459,21 @@ void AKUSetOrientation ( int orientation ) {
 	MOAIGfxDevice::Get ().GetDefaultBuffer ()->SetLandscape ( orientation == AKU_ORIENTATION_LANDSCAPE );
 }
 
+//----------------------------------------------------------------//
+void AKUSetRotation ( int rotation ) {
+	u32 gfxRotation;
+	switch ( rotation ) {
+	case ( AKU_ROTATION_0 )  : gfxRotation = MOAIGfxDevice::ROTATION_0;   break;
+	case ( AKU_ROTATION_90 ) : gfxRotation = MOAIGfxDevice::ROTATION_90;  break;
+	case ( AKU_ROTATION_180 ): gfxRotation = MOAIGfxDevice::ROTATION_180; break;
+	case ( AKU_ROTATION_270 ): gfxRotation = MOAIGfxDevice::ROTATION_270; break;
+	default: gfxRotation = MOAIGfxDevice::ROTATION_UNKNOWN;
+	}
+
+	MOAIGfxDevice::Get ().SetRotation ( gfxRotation );
+}
+
+
 //----------------------------------------------------------------//	
 void AKUSetScreenDpi ( int dpi ) {
 
